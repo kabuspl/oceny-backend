@@ -1,48 +1,41 @@
-import { generateDiff } from "./diffCalculator.js";
-import { getCurrentGrades } from "./uonetApiHandler.js";
+import * as dataUtils from "./dataUtils.js";
+import * as diffCalculator from "./diffCalculator.js";
+import * as uonetApi from "./uonetApiHandler.js";
 
-async function test() {
-    let gra = await getCurrentGrades();
-    console.log(gra)
-    await new Promise(r => setTimeout(r, 10000));
-    let newd = await getCurrentGrades();
-    console.log(newd);
-    console.log(generateDiff(gra,newd));
-}
-
-// test();
-
-const diff = [];
-const dayDiff = {};
-const history = {};
-
-function getDateStr(date = new Date()) {
-    return date.toISOString().substring(0,10);
-}
+// Load dataStores from disks or set default values if they don't exist yet
+const diff = await dataUtils.loadDataStore("diff", []);
+const dayDiff = await dataUtils.loadDataStore("dayDiff", {});
+const history = await dataUtils.loadDataStore("history", {});
 
 async function updateData() {
-    const currentDate = getDateStr();
-    const yesterdayDate = getDateStr(new Date().setDate(new Date().getDate() - 1))
+    // Get dates formatted as YYYY-MM-DD strings
+    const currentDate = dataUtils.getDateStr();
+    const yesterdayDate = dataUtils.getDateStr(new Date(new Date().setDate(new Date().getDate()-1)))
 
     // Get full grades state from yesterday from history
     const gradesYesterday = history[yesterdayDate]
     // Get full grades state before update from history
     const gradesBefore = history[currentDate];
     // Update grades from server
-    const gradesNow = await getCurrentGrades();
+    const gradesNow = await uonetApi.getCurrentGrades();
 
     // Push updated grades to history for today
     history[currentDate] = gradesNow
 
     // Generate dayDiff and diff
-    const dayDiffNow = generateDiff(gradesYesterday, gradesNow, true);
-    const diffNow = generateDiff(gradesBefore, gradesNow);
+    const dayDiffNow = diffCalculator.generateDiff(gradesYesterday, gradesNow, true);
+    const diffNow = diffCalculator.generateDiff(gradesBefore, gradesNow);
 
     // Set dayDiff for current date in global object
     dayDiff[currentDate] = dayDiffNow;
 
     // Push diff to global array if it's not empty
     if(diffNow) diff.push(diffNow);
+
+    // Save updated dataStores
+    dataUtils.saveDataStore("diff", diff);
+    dataUtils.saveDataStore("dayDiff", dayDiff);
+    dataUtils.saveDataStore("history", history);
 }
 
 updateData();
