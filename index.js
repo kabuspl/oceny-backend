@@ -1,3 +1,4 @@
+import "https://deno.land/std@0.201.0/dotenv/load.ts";
 import * as dataUtils from "./dataUtils.js";
 import * as diffCalculator from "./diffCalculator.js";
 import * as uonetApi from "./uonetApiHandler.js";
@@ -47,4 +48,4 @@ async function updateData() {
 }
 
 updateData();
-setInterval(updateData,10000);
+setInterval(updateData, Deno.env.get("UPDATE_RATE_MS"));
