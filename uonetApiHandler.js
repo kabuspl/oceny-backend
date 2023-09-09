@@ -1,3 +1,5 @@
+import "https://deno.land/std@0.201.0/dotenv/load.ts";
+
 export async function getCurrentGrades() {
     const data = await (
         await fetch(
@@ -5,7 +7,7 @@ export async function getCurrentGrades() {
             {
                 method:'POST',
                 headers: {'Content-Type': 'application/json'},
-                body:'{"idOkres":28654, "apiKey":"f77c9cf0-14a4-4afb-b56e-c37502b12084"}'
+                body:'{"idOkres":'+Deno.env.get("UONET_API_IDOKRES")+', "apiKey":"'+Deno.env.get("UONET_API_KEY")+'"}'
             }
         )
     ).json();
