@@ -3,6 +3,7 @@ import * as dataUtils from "./dataUtils.js";
 import * as diffCalculator from "./diffCalculator.js";
 import * as uonetApi from "./uonetApiHandler.js";
 import * as webhookHandler from "./webhookHandler.js";
+import { log } from "./logger.js";
 
 // Load dataStores from disks or set default values if they don't exist yet
 const diff = await dataUtils.loadDataStore("diff", []);
@@ -10,6 +11,8 @@ const dayDiff = await dataUtils.loadDataStore("dayDiff", {});
 const history = await dataUtils.loadDataStore("history", {});
 
 async function updateData() {
+    log(2, "Starting data update...");
+
     // Get dates formatted as YYYY-MM-DD strings
     const currentDate = dataUtils.getDateStr();
     const yesterdayDate = dataUtils.getDateStr(new Date(new Date().setDate(new Date().getDate()-1)))
@@ -18,8 +21,9 @@ async function updateData() {
     const gradesYesterday = history[yesterdayDate]
     // Get full grades state before update from history
     const gradesBefore = history[currentDate];
-    // Update grades from server
+    // Update grades from server, if failed - stop execution
     const gradesNow = await uonetApi.getCurrentGrades();
+    if(!gradesNow) return;
 
     // Push updated grades to history for today
     history[currentDate] = gradesNow
@@ -33,18 +37,25 @@ async function updateData() {
 
     // Push diff to global array if it's not empty and send Discord message
     if(diffNow) {
+        log(2, "Diff is not empty");
         diff.push(diffNow);
         webhookHandler.sendEmbed(
             webhookHandler.webhooks.normal_grades,
             "Nowe oceny",
             webhookHandler.diffToFields(diffNow)
         )
+        log(2, "Sent new grades notification to webhook.");
+    } else {
+        log(2, "Diff is empty");
     }
 
     // Save updated dataStores
     dataUtils.saveDataStore("diff", diff);
     dataUtils.saveDataStore("dayDiff", dayDiff);
     dataUtils.saveDataStore("history", history);
+    log(2, "Saved dataStores.");
+
+    log(1, "Finished data update.");
 }
 
 updateData();
