@@ -1,6 +1,7 @@
 import * as dataUtils from "./dataUtils.js";
 import * as diffCalculator from "./diffCalculator.js";
 import * as uonetApi from "./uonetApiHandler.js";
+import * as webhookHandler from "./webhookHandler.js";
 
 // Load dataStores from disks or set default values if they don't exist yet
 const diff = await dataUtils.loadDataStore("diff", []);
@@ -29,8 +30,15 @@ async function updateData() {
     // Set dayDiff for current date in global object
     dayDiff[currentDate] = dayDiffNow;
 
-    // Push diff to global array if it's not empty
-    if(diffNow) diff.push(diffNow);
+    // Push diff to global array if it's not empty and send Discord message
+    if(diffNow) {
+        diff.push(diffNow);
+        webhookHandler.sendEmbed(
+            webhookHandler.webhooks.normal_grades,
+            "Nowe oceny",
+            webhookHandler.diffToFields(diffNow)
+        )
+    }
 
     // Save updated dataStores
     dataUtils.saveDataStore("diff", diff);
