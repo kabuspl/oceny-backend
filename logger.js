@@ -23,8 +23,11 @@ export function error(content) {
     Deno.writeTextFileSync("oceny.log", logLine, {append: true});
     webhookHandler.sendEmbed(
         webhookHandler.webhooks.errors,
-        content.name,
-        content.message
+        "Error",
+        [{
+            title: content.name,
+            content: content.message
+        }]
     );
     console.log(red(logLine.slice(0,-1)));
 }
