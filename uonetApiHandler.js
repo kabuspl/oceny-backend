@@ -16,6 +16,7 @@ export async function getCurrentGrades() {
         const returnBuilder = {}
         for(const subject of data.data) {
             const classSeries = subject.ClassSeries;
+            if(classSeries.IsEmpty) continue;
             returnBuilder[subject.Subject] = {
                 1: classSeries.Items[5].Value,
                 2: classSeries.Items[4].Value,
