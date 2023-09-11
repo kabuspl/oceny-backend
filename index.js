@@ -4,11 +4,12 @@ import * as diffCalculator from "./diffCalculator.js";
 import * as uonetApi from "./uonetApiHandler.js";
 import * as webhookHandler from "./webhookHandler.js";
 import { log } from "./logger.js";
+import { startHttpApi } from "./api.js";
 
 // Load dataStores from disks or set default values if they don't exist yet
-const diff = await dataUtils.loadDataStore("diff", []);
-const dayDiff = await dataUtils.loadDataStore("dayDiff", {});
-const history = await dataUtils.loadDataStore("history", {});
+export const diff = await dataUtils.loadDataStore("diff", []);
+export const dayDiff = await dataUtils.loadDataStore("dayDiff", {});
+export const history = await dataUtils.loadDataStore("history", {});
 
 async function updateData() {
     log(2, "Starting data update...");
@@ -58,5 +59,6 @@ async function updateData() {
     log(1, "Finished data update.");
 }
 
+startHttpApi();
 updateData();
 setInterval(updateData, Deno.env.get("UPDATE_RATE_MS"));
