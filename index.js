@@ -21,7 +21,11 @@ async function updateData() {
     // Get full grades state from yesterday from history
     const gradesYesterday = history[yesterdayDate]
     // Get full grades state before update from history
-    const gradesBefore = history[currentDate];
+    let gradesBefore = history[currentDate];
+
+    // If gradesBefore for today is empty, set it to gradesYesterday
+    if(!gradesBefore) gradesBefore = gradesYesterday;
+
     // Update grades from server, if failed - stop execution
     const gradesNow = await uonetApi.getCurrentGrades();
     if(!gradesNow) return;
