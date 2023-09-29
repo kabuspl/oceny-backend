@@ -7,9 +7,12 @@ import { log } from "./logger.js";
 import { startHttpApi } from "./api.js";
 
 // Load dataStores from disks or set default values if they don't exist yet
-export const diff = await dataUtils.loadDataStore("diff", []);
-export const dayDiff = await dataUtils.loadDataStore("dayDiff", {});
-export const history = await dataUtils.loadDataStore("history", {});
+const diffDataStore = await dataUtils.loadDataStore("diff", []);
+export const diff = diffDataStore.content;
+const dayDiffDataStore = await dataUtils.loadDataStore("dayDiff", {});
+export const dayDiff = dayDiffDataStore.content;
+const historyDataStore = await dataUtils.loadDataStore("history", {});
+export const history = historyDataStore.content;
 
 async function updateData() {
     log(2, "Starting data update...");
@@ -55,9 +58,9 @@ async function updateData() {
     }
 
     // Save updated dataStores
-    dataUtils.saveDataStore("diff", diff);
-    dataUtils.saveDataStore("dayDiff", dayDiff);
-    dataUtils.saveDataStore("history", history);
+    dataUtils.saveDataStore("diff", diffDataStore);
+    dataUtils.saveDataStore("dayDiff", dayDiffDataStore);
+    dataUtils.saveDataStore("history", historyDataStore);
     log(2, "Saved dataStores.");
 
     log(1, "Finished data update.");

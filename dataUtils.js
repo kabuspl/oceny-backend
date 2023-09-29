@@ -1,3 +1,5 @@
+const SUPPORTED_DATASTORE_VERSION = 2;
+
 /**
  * Load dataStore from hard disk or return default value if dataStore doesn't exist.
  * @param {string} name - Name of dataStore to load.
@@ -6,10 +8,20 @@
  */
 export async function loadDataStore(name, defaultValue) {
     try {
-        return JSON.parse(await Deno.readTextFile(`datastore/${name}.json`))
+        const dataStore = JSON.parse(await Deno.readTextFile(`datastore/${name}.json`));
+        if(dataStore.dataStoreManifest.version == SUPPORTED_DATASTORE_VERSION) {
+            return dataStore;
+        } else {
+            throw new Error(`DataStore is incompatible! Version: ${dataStore.dataStoreManifest.version}; Expected: ${SUPPORTED_DATASTORE_VERSION}`)
+        }
     }catch(e) {
         if(e instanceof Deno.errors.NotFound) {
-            return defaultValue;
+            return {
+                dataStoreManifest: {
+                    version: 2
+                },
+                content: defaultValue
+            };
         }else{
             throw e;
         }
