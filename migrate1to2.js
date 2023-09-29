@@ -25,6 +25,10 @@ switch(dataStoreName) {
         newDataStore.content = {};
         for(const day of Object.keys(dataStore)) {
             const dayContent = dataStore[day];
+            if(!dayContent.subjects) {
+                newDataStore.content[day] = {};
+                continue;
+            }
             newDataStore.content[day] = {
                 date: dayContent.date,
                 subjects: {}
@@ -47,7 +51,7 @@ switch(dataStoreName) {
                 date: content.date,
                 subjects: {}
             }
-            let temp = {};
+            let temp = {subjects: {}};
             for(const subject of Object.keys(content.subjects)) {
                 temp.subjects[subject] = {
                     grades: {
@@ -65,7 +69,7 @@ switch(dataStoreName) {
         for(const day in dataStore) {
             const dayContent = dataStore[day];
             newDataStore.content[day] = {}
-            for(const subject in Object.keys(dayContent)) {
+            for(const subject of Object.keys(dayContent)) {
                 newDataStore.content[day][subject] = {
                     grades: {
                         ...dayContent[subject]
