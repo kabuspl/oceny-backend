@@ -52,9 +52,9 @@ switch(dataStoreName) {
                 date: content.date,
                 subjects: {}
             }
-            let temp = {subjects: {}};
+            let temp = {};
             for(const subject of Object.keys(content.subjects)) {
-                temp.subjects[subject] = {
+                temp[subject] = {
                     grades: {
                         ...content.subjects[subject]
                     },
