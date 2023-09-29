@@ -48,19 +48,19 @@ switch(dataStoreName) {
                 subjects: {}
             }
             let temp = {};
-            for(const subject of Object.keys(dayContent.subjects)) {
+            for(const subject of Object.keys(content.subjects)) {
                 temp.subjects[subject] = {
                     grades: {
-                        ...dayContent.subjects[subject]
+                        ...content.subjects[subject]
                     },
-                    average: calculateAvg(dayContent.subjects[subject])
+                    average: calculateAvg(content.subjects[subject])
                 }
             }
             temp1.subjects = temp;
         }
         break;
     }
-    case "hisotry": {
+    case "history": {
         newDataStore.content = {};
         for(const day in dataStore) {
             const dayContent = dataStore[day];
