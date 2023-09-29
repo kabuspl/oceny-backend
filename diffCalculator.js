@@ -38,16 +38,16 @@ export function generateDiff(before, now, returnEmpty = false) {
         if(!subjectBefore && subjectNow) {
             diffBuilder[subjectName] = subjectNow;
         } else { // If subject existed before, calculate changes and push to diff
-            const subjectDiffBuilder = {};
+            const subjectDiffBuilder = {grades: {}, average: subjectNow.average};
 
             // Iterate over every name of grade. If current data exists it always contains all grade names so we can use subjectNow
-            for(const gradeName in subjectNow) {
-                const gradeNow = subjectNow[gradeName];
-                const gradeBefore = subjectBefore[gradeName]
+            for(const gradeName in subjectNow.grades) {
+                const gradeNow = subjectNow.grades[gradeName];
+                const gradeBefore = subjectBefore.grades[gradeName];
 
                 // If current grade count is different than before, calculate difference and push to diff
                 if(gradeNow != gradeBefore) {
-                    subjectDiffBuilder[gradeName] = gradeNow - gradeBefore;
+                    subjectDiffBuilder.grades[gradeName] = gradeNow - gradeBefore;
                 }
             }
             diffBuilder[subjectName] = subjectDiffBuilder;

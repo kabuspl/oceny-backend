@@ -26,11 +26,12 @@ export function sendEmbed(webhook, title, fields) {
 /**
  * Convert diff to discord embed fields
  * @param {object} diff - Diff object from **generateDiff()**
+ * @param {object} gradesBefore - Old grades from **history**. Used to show average change.
  */
-export function diffToFields(diff) {
+export function diffToFields(diff, gradesBefore) {
     const fields = [];
     for(const subjectName in diff.subjects) {
-        const subjectData = diff.subjects[subjectName];
+        const subjectData = diff.subjects[subjectName].grades;
         let text = "";
         for(const gradeName in subjectData) {
             const gradeValue = subjectData[gradeName];
@@ -41,8 +42,19 @@ export function diffToFields(diff) {
         // Remove last comma and space
         text = text.slice(0, -2);
 
+        // Round current average to 2 decimals
+        const averageNow = Math.floor(diff.subjects[subjectName].average*100)/100;
+
+        // Get previous average from gradesBefore. If it doesn't exist set to 0.
+        let averageBefore;
+        if(!gradesBefore || !gradesBefore[subjectName]) {
+            averageBefore = 0;
+        } else {
+            averageBefore = gradesBefore[subjectName].average;
+        }
+
         fields.push({
-            title: subjectName,
+            title: `${subjectName} (${averageBefore} → ${averageNow})`,
             content: text
         })
     }

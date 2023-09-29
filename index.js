@@ -47,7 +47,7 @@ async function updateData() {
         webhookHandler.sendEmbed(
             webhookHandler.webhooks.normal_grades,
             "Nowe oceny",
-            webhookHandler.diffToFields(diffNow)
+            webhookHandler.diffToFields(diffNow,gradesBefore)
         )
         log(2, "Sent new grades notification to webhook.");
     } else {
