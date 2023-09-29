@@ -17,6 +17,7 @@ function calculateAvg(grades) {
         count+=grades[gr];
     }
     let avg = avgTemp/count;
+    if(!avg) avg=0;
     return Math.floor(avg*100)/100;
 }
 
