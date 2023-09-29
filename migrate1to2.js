@@ -8,19 +8,6 @@ const newDataStore = {
     }
 };
 
-function calculateAvg(grades) {
-    let avgTemp = 0;
-    let count = 0;
-    for(const grs in grades) {
-        const gr = parseInt(grs);
-        avgTemp+=(gr+1)*grades[gr];
-        count+=grades[gr];
-    }
-    let avg = avgTemp/count;
-    if(!avg) avg=0;
-    return Math.floor(avg*100)/100;
-}
-
 switch(dataStoreName) {
     case "dayDiff": {
         newDataStore.content = {};
@@ -39,7 +26,7 @@ switch(dataStoreName) {
                     grades: {
                         ...dayContent.subjects[subject]
                     },
-                    average: calculateAvg(dayContent.subjects[subject])
+                    average: 0
                 }
             }
         }
@@ -58,7 +45,7 @@ switch(dataStoreName) {
                     grades: {
                         ...content.subjects[subject]
                     },
-                    average: calculateAvg(content.subjects[subject])
+                    average: 0
                 }
             }
             temp1.subjects = temp;
@@ -76,7 +63,7 @@ switch(dataStoreName) {
                     grades: {
                         ...dayContent[subject]
                     },
-                    average: calculateAvg(dayContent[subject])
+                    average: 0
                 }
             }
         }
