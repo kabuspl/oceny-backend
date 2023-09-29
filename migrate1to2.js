@@ -61,6 +61,7 @@ switch(dataStoreName) {
                 }
             }
             temp1.subjects = temp;
+            newDataStore.content.push(temp1);
         }
         break;
     }
