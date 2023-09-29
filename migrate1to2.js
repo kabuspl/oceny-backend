@@ -45,7 +45,7 @@ switch(dataStoreName) {
         break;
     }
     case "diff": {
-        newDataStore.content = {};
+        newDataStore.content = [];
         for(const content of dataStore) {
             let temp1 = {
                 date: content.date,
