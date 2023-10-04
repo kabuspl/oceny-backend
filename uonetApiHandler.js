@@ -7,5 +7,10 @@ const vulcanHandler = new VulcanHandler(process.env.UONET_USERNAME, process.env.
 await vulcanHandler.login();
 
 export async function getCurrentGrades() {
-    return await vulcanHandler.getClassGrades();
+    try {
+        return await vulcanHandler.getClassGrades();
+    }catch(e) {
+        error(e);
+        return null;
+    }
 }
