@@ -1,6 +1,7 @@
-import "https://deno.land/std@0.201.0/dotenv/load.ts";
-import { red } from "https://deno.land/std@0.201.0/fmt/colors.ts";
+import "dotenv/config";
+import "colors";
 import * as webhookHandler from "./webhookHandler.js";
+import fs from "fs";
 
 /**
  * Log text to stdin (when user configured log_level higher or equal to message's level) and file.
@@ -8,9 +9,9 @@ import * as webhookHandler from "./webhookHandler.js";
  * @param {string} content - Message.
  */
 export function log(level, content) {
-    if(level > Deno.env.get("LOG_LEVEL")) return;
+    if(level > process.env.LOG_LEVEL) return;
     const logLine = `[${level}] [${new Date().toISOString()}]: ${content}\n`;
-    Deno.writeTextFileSync("oceny.log", logLine, {append: true});
+    fs.appendFileSync("oceny.log", logLine, {encoding: "utf-8"});
     console.log(logLine.slice(0,-1));
 }
 
@@ -20,7 +21,7 @@ export function log(level, content) {
  */
 export function error(content) {
     const logLine = `[ERROR] [${new Date().toISOString()}]: ${content}\n`;
-    Deno.writeTextFileSync("oceny.log", logLine, {append: true});
+    fs.appendFileSync("oceny.log", logLine, {encoding: "utf-8"});
     webhookHandler.sendEmbed(
         webhookHandler.webhooks.errors,
         "Error",
@@ -29,5 +30,5 @@ export function error(content) {
             content: content.message
         }]
     );
-    console.log(red(logLine.slice(0,-1)));
+    console.log(logLine.slice(0,-1).red);
 }

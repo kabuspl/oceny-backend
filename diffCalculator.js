@@ -1,4 +1,4 @@
-import * as _ from "https://deno.land/x/lodash@4.17.15-es/lodash.js";
+import { isEqual } from "lodash-es";
 
 /**
  * Create diff of two grade objects.
@@ -9,7 +9,7 @@ import * as _ from "https://deno.land/x/lodash@4.17.15-es/lodash.js";
  */
 export function generateDiff(before, now, returnEmpty = false) {
     // Skip whole diff if data is the same as before
-    if(_.isEqual(before, now)) {
+    if(isEqual(before, now)) {
         if(returnEmpty) {
             return {};
         }else{
@@ -32,7 +32,7 @@ export function generateDiff(before, now, returnEmpty = false) {
         const subjectBefore = before[subjectName];
 
         // Skip if subject data is the same as before
-        if(_.isEqual(subjectBefore, subjectNow)) continue;
+        if(isEqual(subjectBefore, subjectNow)) continue;
 
         // If subject hasn't existed before, just push current data to diff
         if(!subjectBefore && subjectNow) {

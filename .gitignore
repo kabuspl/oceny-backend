@@ -1,3 +1,4 @@
 .env
 oceny.log
 DATA_FORMAT.md
+node_modules

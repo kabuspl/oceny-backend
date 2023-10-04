@@ -1,3 +1,5 @@
+import fs from "fs/promises";
+
 const SUPPORTED_DATASTORE_VERSION = 2;
 
 /**
@@ -8,23 +10,19 @@ const SUPPORTED_DATASTORE_VERSION = 2;
  */
 export async function loadDataStore(name, defaultValue) {
     try {
-        const dataStore = JSON.parse(await Deno.readTextFile(`datastore/${name}.json`));
+        const dataStore = JSON.parse(await fs.readFile(`datastore/${name}.json`, {encoding: "utf-8"}));
         if(dataStore.dataStoreManifest.version == SUPPORTED_DATASTORE_VERSION) {
             return dataStore;
         } else {
             throw new Error(`DataStore is incompatible! Version: ${dataStore.dataStoreManifest.version}; Expected: ${SUPPORTED_DATASTORE_VERSION}`)
         }
     }catch(e) {
-        if(e instanceof Deno.errors.NotFound) {
-            return {
-                dataStoreManifest: {
-                    version: 2
-                },
-                content: defaultValue
-            };
-        }else{
-            throw e;
-        }
+        return {
+            dataStoreManifest: {
+                version: 2
+            },
+            content: defaultValue
+        };
     }
 }
 
@@ -34,7 +32,7 @@ export async function loadDataStore(name, defaultValue) {
  * @param {object | object[]} content - Content of dataStore.
  */
 export async function saveDataStore(name, content) {
-    await Deno.writeTextFile(`datastore/${name}.json`, JSON.stringify(content));
+    await fs.writeFile(`datastore/${name}.json`, JSON.stringify(content), {encoding: "utf-8"});
 }
 
 /**

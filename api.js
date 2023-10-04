@@ -1,4 +1,4 @@
-import express from "npm:express";
+import express from "express";
 import { diff, dayDiff, history } from "./index.js";
 import { log } from "./logger.js";
 

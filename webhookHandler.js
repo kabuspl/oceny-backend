@@ -1,11 +1,11 @@
-import "https://deno.land/std@0.201.0/dotenv/load.ts";
-import {Webhook, MessageBuilder} from "npm:discord-webhook-node";
+import "dotenv/config";
+import {Webhook, MessageBuilder} from "discord-webhook-node";
 import * as gradeNames from "./gradeNames.js";
 
 export const webhooks = {
-    normal_grades: new Webhook(Deno.env.get("DISCORD_WEBHOOK_NORMAL_GRADES")),
-    semestral_grades: new Webhook(Deno.env.get("DISCORD_WEBHOOK_SEMESTRAL_GRADES")),
-    errors: new Webhook(Deno.env.get("DISCORD_WEBHOOK_ERRORS")),
+    normal_grades: new Webhook(process.env.DISCORD_WEBHOOK_NORMAL_GRADES),
+    semestral_grades: new Webhook(process.env.DISCORD_WEBHOOK_SEMESTRAL_GRADES),
+    errors: new Webhook(process.env.DISCORD_WEBHOOK_ERRORS),
 }
 
 /**

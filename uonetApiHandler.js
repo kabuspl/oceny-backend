@@ -1,4 +1,4 @@
-import "https://deno.land/std@0.201.0/dotenv/load.ts";
+import "dotenv/config";
 import { error } from "./logger.js";
 
 export async function getCurrentGrades() {
@@ -9,7 +9,7 @@ export async function getCurrentGrades() {
                 {
                     method:'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body:'{"idOkres":'+Deno.env.get("UONET_API_IDOKRES")+', "apiKey":"'+Deno.env.get("UONET_API_KEY")+'"}'
+                    body:'{"idOkres":'+process.env.UONET_API_IDOKRES+', "apiKey":"'+process.env.UONET_API_KEY+'"}'
                 }
             )
         ).json();
