@@ -1,11 +1,21 @@
 version: '2'
 services:
     node:
-        image: "node:latest"
-        user: "node"
-        working_dir: /home/node/app
+        image: "kabuspl/oceny-backend"
+        environment:
+            DISCORD_WEBHOOK_NORMAL_GRADES: "https://discord.com/api/webhooks/123/abc"
+            DISCORD_WEBHOOK_SEMESTRAL_GRADES: "https://discord.com/api/webhooks/123/abc"
+            DISCORD_WEBHOOK_ERRORS: "https://discord.com/api/webhooks/123/abc"
+            UONET_USERNAME: "student@school.com"
+            UONET_PASSWORD: "P@ssw0rd"
+            UONET_SYMBOL: "city"
+            UPDATE_RATE_MS: 300000
+            LOG_LEVEL: 2
         volumes:
-            - ./:/home/node/app
+            - datastore:/home/node/app/datastore
+            - logs:/home/node/app/logs
         ports:
             - "4080"
-        command: "node ."
+volumes:
+    datastore:
+    logs:
