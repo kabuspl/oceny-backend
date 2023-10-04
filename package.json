@@ -8,5 +8,23 @@
     "lodash-es": "^4.17.21",
     "vulcan-scraper": "^1.1.0"
   },
-  "type": "module"
+  "type": "module",
+  "name": "oceny-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kabuspl/oceny-backend.git"
+  },
+  "author": "kabuspl",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/kabuspl/oceny-backend/issues"
+  },
+  "homepage": "https://github.com/kabuspl/oceny-backend#readme",
+  "description": ""
 }
