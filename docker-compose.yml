@@ -6,6 +6,6 @@ services:
         working_dir: /home/node/app
         volumes:
             - ./:/home/node/app
-        expose:
+        ports:
             - "4080"
         command: "node ."
