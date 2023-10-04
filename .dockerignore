@@ -2,3 +2,6 @@ oceny.log
 node_modules
 .git
 .env
+Dockerfile
+docker-compose.yml
+datastore/*
