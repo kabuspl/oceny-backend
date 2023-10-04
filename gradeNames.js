@@ -1,5 +1,5 @@
 const gradeDesc = {
-    "1": ["pizda", "pizd", "pizdy"],
+    "1": ["jedynka", "jedynek", "jedynki"],
     "2": ["dwójka", "dwójek", "dwójki"],
     "3": ["trójka", "trójek", "trójki"],
     "4": ["czwórka", "czwórek", "czwórki"],
