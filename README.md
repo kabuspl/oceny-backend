@@ -1,7 +1,11 @@
 # oceny-backend
 Self-hosted webhook/bot to monitor changes in class grades on VULCAN UONET+ e-register.
+
 ### Preview
 ![Discord screenshot](assets/preview.png)
+
+### See also
+Web frontend: [oceny-frontend-v2](https://github.com/kabuspl/oceny-frontend-v2)
 
 ## Installation
 ### Standalone
