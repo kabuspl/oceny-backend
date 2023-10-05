@@ -1,7 +1,7 @@
 version: '2'
 services:
     node:
-        image: "kabuspl/oceny-backend"
+        image: "ghcr.io/kabuspl/oceny-backend:latest"
         environment:
             DISCORD_WEBHOOK_NORMAL_GRADES: "https://discord.com/api/webhooks/123/abc"
             DISCORD_WEBHOOK_SEMESTRAL_GRADES: "https://discord.com/api/webhooks/123/abc"
