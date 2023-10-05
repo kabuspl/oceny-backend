@@ -23,7 +23,7 @@ export async function startHttpApi() {
         if(dayDiff[date]) {
             res.send({
                 success: true,
-                data: dayDiff[date].subjects
+                data: dayDiff[date].subjects || {}
             });
         }else{
 		    res.send({
