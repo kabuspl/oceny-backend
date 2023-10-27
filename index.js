@@ -6,6 +6,13 @@ import * as webhookHandler from "./webhookHandler.js";
 import { log } from "./logger.js";
 import { startHttpApi } from "./api.js";
 
+// Import dataStores from datastore_import to datastore dir if IMPORT_DATASTORE is "true". Used to import existing data to docker container.
+if(process.env.IMPORT_DATASTORE && process.env.IMPORT_DATASTORE == "true") {
+    await dataUtils.importDataStore("diff");
+    await dataUtils.importDataStore("dayDiff");
+    await dataUtils.importDataStore("history");
+}
+
 // Load dataStores from disks or set default values if they don't exist yet
 const diffDataStore = await dataUtils.loadDataStore("diff", []);
 export const diff = diffDataStore.content;

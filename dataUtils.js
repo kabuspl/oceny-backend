@@ -43,3 +43,12 @@ export async function saveDataStore(name, content) {
 export function getDateStr(date = new Date()) {
     return date.toISOString().substring(0,10);
 }
+
+/**
+ * Import dataStore from datastore_import to datastore. Used to import data to docker container.
+ * @param {string} name - Name of dataStore to import.
+ * @returns {Promise<void>} File copy promise.
+ */
+export function importDataStore(name) {
+    return fs.copyFile("datastore_import/"+name+".json", "datastore/"+name+".json");
+}
