@@ -21,6 +21,42 @@ export const dayDiff = dayDiffDataStore.content;
 const historyDataStore = await dataUtils.loadDataStore("history", {});
 export const history = historyDataStore.content;
 
+// Fix data if needed
+// If last key in history is not today or yesterday, we need to fix it!
+if(
+    Object.keys(history).at(-1) != dataUtils.getDateStr() &&
+    Object.keys(history).at(-1) != dataUtils.getDateStr(new Date(new Date().setDate(new Date().getDate()-1)))
+) {
+    log(1, "Fixing incomplete history data...");
+    const lastDate = Object.keys(history).at(-1);
+    const lastEntry = history[Object.keys(history).at(-1)];
+    let loopDate = new Date(lastDate);
+    loopDate.setDate(loopDate.getDate()+1);
+    while(loopDate<=new Date()) {
+        history[dataUtils.getDateStr(loopDate)] = lastEntry;
+        loopDate.setDate(loopDate.getDate()+1)
+    }
+    log(1, "Fixed incomplete history data.");
+}
+// If last key in dayDiff is not today or yesterday, we need to fix it!
+if(
+    Object.keys(dayDiff).at(-1) != dataUtils.getDateStr() &&
+    Object.keys(dayDiff).at(-1) != dataUtils.getDateStr(new Date(new Date().setDate(new Date().getDate()-1)))
+) {
+    log(1, "Fixing incomplete dayDiff data...");
+    const lastDate = Object.keys(dayDiff).at(-1);
+    let loopDate = new Date(lastDate);
+    loopDate.setDate(loopDate.getDate()+1);
+    while(loopDate<=new Date()) {
+        dayDiff[dataUtils.getDateStr(loopDate)] = {};
+        loopDate.setDate(loopDate.getDate()+1)
+    }
+    log(1, "Fixed incomplete dayDiff data.");
+}
+// Save fixed dataStores
+await dataUtils.saveDataStore("dayDiff", dayDiffDataStore);
+await dataUtils.saveDataStore("history", historyDataStore);
+
 async function updateData() {
     log(2, "Starting data update...");
 
