@@ -11,6 +11,7 @@ services:
             UONET_SYMBOL: "city"
             UPDATE_RATE_MS: 300000
             LOG_LEVEL: 2
+            IMPORT_DATASTORE: "false"
         volumes:
             - datastore:/home/node/app/datastore
             - logs:/home/node/app/logs
