@@ -42,6 +42,8 @@ export function diffToFields(diff, gradesBefore) {
         // Remove last comma and space
         text = text.slice(0, -2);
 
+        const isAverageAvailable = !!diff.subjects[subjectName].average;
+
         // Round current average to 2 decimals
         const averageNow = Math.floor(diff.subjects[subjectName].average*100)/100;
 
@@ -53,8 +55,8 @@ export function diffToFields(diff, gradesBefore) {
             averageBefore = gradesBefore[subjectName].average;
         }
 
-        fields.push({
-            title: `${subjectName} (${averageBefore} → ${averageNow})`,
+        if(text.length>0) fields.push({
+            title: subjectName + (isAverageAvailable ? `(${averageBefore} → ${averageNow})` : ""),
             content: text
         })
     }

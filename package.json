@@ -6,7 +6,7 @@
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "lodash-es": "^4.17.21",
-    "vulcan-scraper": "^1.4.0"
+    "vulcan-scraper": "^1.5.0"
   },
   "type": "module",
   "name": "oceny-backend",

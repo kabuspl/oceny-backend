@@ -14,3 +14,12 @@ export async function getCurrentGrades() {
         return null;
     }
 }
+
+export async function getCurrentSemestralGrades() {
+    try {
+        return await vulcanHandler.getClassSemestralGrades();
+    }catch(e) {
+        error(e);
+        return null;
+    }
+}
